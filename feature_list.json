@@ -1,0 +1,164 @@
+{
+  "project": "3DPrinter",
+  "last_updated": "2026-09-16",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "status_legend": {
+    "not_started": "Work has not begun.",
+    "in_progress": "The feature is the current active task.",
+    "blocked": "Work cannot continue until a documented blocker is resolved.",
+    "passing": "Required verification has passed and evidence is recorded."
+  },
+  "features": [
+    {
+      "id": "harness-001",
+      "priority": 1,
+      "area": "harness",
+      "title": "Harness baseline environment & verification scripts",
+      "user_visible_behavior": "Developer or agent can execute ./init.sh and ./scripts/verify.sh to verify environment health and code baseline.",
+      "status": "passing",
+      "verification": [
+        "Run chmod +x init.sh scripts/verify.sh",
+        "Run ./init.sh",
+        "Verify exit code is 0 and output confirms baseline verification passed."
+      ],
+      "evidence": [
+        "Executed ./init.sh and ./scripts/verify.sh successfully with exit code 0."
+      ],
+      "notes": "Base harness infrastructure established per Learn Harness Engineering standard."
+    },
+    {
+      "id": "cad-shoe-001",
+      "priority": 2,
+      "area": "cad-modeling",
+      "title": "2-year-old toddler ergonomic shoe (150mm inner length)",
+      "user_visible_behavior": "Parametric FreeCAD model in drawing/src/shoe.py generates an ergonomic toddler shoe with 150mm inner length, fan toe box, and high instep collar.",
+      "status": "passing",
+      "verification": [
+        "./scripts/verify.sh",
+        "FreeCAD MCP execute_code on GUI"
+      ],
+      "evidence": [
+        "Verified via ./scripts/verify.sh and freecadcmd with code 0.",
+        "Verified live in FreeCAD GUI with bounding box 170.0x78.0x63.3mm, inner length exactly 150mm (X=4 to X=154mm)."
+      ],
+      "notes": "Rewritten specifically for 2yo child anatomical proportions."
+    },
+    {
+      "id": "cad-shoe-002",
+      "priority": 2.5,
+      "area": "cad-modeling",
+      "title": "High-detail toddler shoe geometry",
+      "user_visible_behavior": "Parametric FreeCAD model generates a highly detailed toddler shoe with distinct sole, upper, toe cap, collar roll, and smooth high-resolution surfaces.",
+      "status": "passing",
+      "verification": [
+        "./scripts/verify.sh",
+        "FreeCAD MCP execute_code on GUI"
+      ],
+      "evidence": [
+        "Verified via ./scripts/verify.sh with code 0.",
+        "Verified live in FreeCAD GUI with bounding box 168.0x79.7x61.8mm.",
+        "Generated 5 distinct detailed bodies: Sole, Upper, Collar, Toe Bumper, Velcro Strap."
+      ],
+      "notes": "User requested more faces/details. Will add distinct sole, upper, toe cap, collar rim, and adjust tessellation deviation."
+    },
+    {
+      "id": "cad-shoe-003",
+      "priority": 2.6,
+      "area": "cad-modeling",
+      "title": "Fix ruled surface bug for smooth NURBS loft",
+      "user_visible_behavior": "The 3D model looks perfectly smooth and curved (silky smooth) longitudinally instead of having flat segmented faces.",
+      "status": "passing",
+      "verification": [
+        "Change makeLoft(..., True, True) to makeLoft(..., True, False)",
+        "FreeCAD MCP execute_code on GUI"
+      ],
+      "evidence": [
+        "Verified via ./scripts/verify.sh with code 0 (execution time reduced to ~13s).",
+        "makeLoft Ruled parameter successfully changed to False."
+      ],
+      "notes": "User complained model was not silky smooth. Discovered that Ruled=True was passed to makeLoft, creating flat segments. Changing to False creates a smooth B-Spline interpolation."
+    },
+    {
+      "id": "cad-shoe-004",
+      "priority": 2.7,
+      "area": "cad-modeling",
+      "title": "TPU breathability ventilation holes",
+      "user_visible_behavior": "The shoe upper features an array of parametric ventilation holes to ensure airflow when printed with non-porous TPU material.",
+      "status": "passing",
+      "verification": [
+        "./scripts/verify.sh",
+        "FreeCAD boolean cut successfully creates holes in the upper."
+      ],
+      "evidence": [
+        "Verified via ./scripts/verify.sh with code 0.",
+        "Compound cylinder boolean cut implemented successfully for top and side vents."
+      ],
+      "notes": "User noted TPU is not breathable. Adding Crocs-style ventilation cutouts to the upper."
+    },
+    {
+      "id": "cad-001",
+      "priority": 2,
+      "area": "cad-modeling",
+      "title": "Workstation V19.2 headless-safe execution in FreeCAD",
+      "user_visible_behavior": "FreeCAD script drawing/src/workbench.py executes without error in both GUI and headless (console) mode when ViewObject is None.",
+      "status": "passing",
+      "verification": [
+        "Run /Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd drawing/src/workbench.py",
+        "Confirm script outputs success message and exits with code 0 without raising AttributeError on ViewObject."
+      ],
+      "evidence": [
+        "Streamlined drawing/src/workbench.py using Route A (~95 lines, down from 169 lines).",
+        "Guarded ViewObject access for headless mode.",
+        "Verified via /Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd drawing/src/workbench.py with code 0.",
+        "Verified in live FreeCAD GUI via MCP execute_code with 108 objects correctly created and rendered.",
+        "Verified via ./scripts/verify.sh with all tests passing."
+      ],
+      "notes": "Streamlined code redundancy (DRY) and added ViewObject safety guard."
+    },
+    {
+      "id": "cad-002",
+      "priority": 3,
+      "area": "cad-modeling",
+      "title": "Workstation bounding box and dimension assertion checks",
+      "user_visible_behavior": "Automated verification checks validate that the heavy workstation outer bounding box satisfies 1400x800x700mm.",
+      "status": "not_started",
+      "verification": [
+        "Run automated model check verifying Workstation_V19_2_Complete objects.",
+        "Verify outer dimensions match 1400mm width, 800mm depth, 700mm height."
+      ],
+      "evidence": [],
+      "notes": "Provides programmatic guarantee of physical envelope."
+    },
+    {
+      "id": "cad-003",
+      "priority": 4,
+      "area": "export-pipeline",
+      "title": "Automated export pipeline for FCStd, STEP and OpenSCAD",
+      "user_visible_behavior": "Running export automation compiles the parametric model and outputs updated files to drawing/output/.",
+      "status": "not_started",
+      "verification": [
+        "Run export script",
+        "Verify drawing/output/ contains valid and updated .FCStd and .scad files."
+      ],
+      "evidence": [],
+      "notes": ""
+    },
+    {
+      "id": "doc-001",
+      "priority": 5,
+      "area": "docs",
+      "title": "Hardware specifications and equipment layout documentation",
+      "user_visible_behavior": "Comprehensive reference document in docs/HARDWARE_SPECS.md describing 1400x800x700 aluminium structure and equipment coordinates.",
+      "status": "not_started",
+      "verification": [
+        "Check docs/HARDWARE_SPECS.md exists and accurately matches coordinates in workbench.py."
+      ],
+      "evidence": [],
+      "notes": "Makes the repo the system of record for physical workstation specs."
+    }
+  ]
+}
