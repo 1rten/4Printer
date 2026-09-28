@@ -89,3 +89,19 @@
 - **Next Best Action**:
   - Proceed with `cad-002`: Implement automated bounding box (1400×800×700mm) assertion checks.
 
+### Session 4 - 2026-09-28 (Plan B Physical Fastener Upgrade & BOM Generation)
+- **Goal**: Upgrade connection fasteners to Plan B (real 45° triangular gusset brackets, visible cyan/purple marker zones, 8 tabletop mounting clips, FreeCAD Groups, and BOM generation).
+- **Completed**:
+  - [x] Upgraded 20 corner brackets from solid square blocks to realistic 45° triangular extruded gusset brackets (`create_bracket_yz` / `create_bracket_xz`).
+  - [x] Ensured all three connection hardware systems (red triangular brackets, cyan through-bolts, purple anchor pins) remain clearly visible and color-coded in 3D CAD view.
+  - [x] Added 8 physical tabletop mounting clips (`Top_Clip`) on top front/back beams to constrain the birch plywood desktop.
+  - [x] Organized all CAD objects into 4 FreeCAD groups: `Frame` (28), `Fasteners` (76), `Panels_Drawers` (7), `Equipment` (5).
+  - [x] Implemented automated BOM hardware summary output.
+  - [x] Verified via headless `freecadcmd drawing/src/workbench.py` with exit code 0.
+  - [x] Verified live in FreeCAD GUI via MCP `execute_code`, captured updated 3D rendering.
+- **Verification Evidence**:
+  - `freecadcmd drawing/src/workbench.py`: Exit code 0, printed 6-item BOM summary cleanly.
+  - MCP `execute_code`: 116 objects generated across 4 groups, rendered with distinct colors in GUI.
+- **Next Best Action**:
+  - Proceed with `cad-002`: Implement automated bounding box (1400×800×700mm) assertion checks.
+
