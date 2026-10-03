@@ -182,9 +182,12 @@
         "Fixed bottom tray slide rail coordinates: corrected Slide_LeftTray_L from X=90 to X=130 and Slide_RightTray_L from X=870 to X=910 to flush-mount symmetrically on the inner faces of bottom Y-beams.",
         "Eliminated redundant anchor pins at rear cross intersection (Anchor_X_Mid_X780, X820), relying purely on 4 gusset brackets (B_Cross_*) for maximum rigidity and clean assembly without over-constraint.",
         "Optimized Y-axis beam fasteners: eliminated 12 redundant anchor pins on the 6 main Y beams (3 top, 3 bot at X=0, 780, 1560) which are firmly secured by 12 die-cast triangular brackets in YZ plane. Retained 20 pure anchor pins for internal functional beams (4 slide support, 2 top reinforcement, 3 mid drawer, 2 rear outer).",
-        "Captured updated 3D isometric and front view screenshots in FreeCAD (workstation_1600_v25_1.png, workstation_1600_v25_1_front.png)."
+        "Captured updated 3D isometric and front view screenshots in FreeCAD (workstation_1600_v25_1.png, workstation_1600_v25_1_front.png).",
+        "V25.4 Upgrade: Offset 4 bottom tray support beams inward to exactly 160mm clear distance from side frame beams (X=200..240, 580..620 in Left Bay; X=980..1020, 1360..1400 in Right Bay) with slide rails mounted on outer faces (X=170..200, 620..650, 950..980, 1400..1430).",
+        "Eliminated 16 horizontal top/bottom brackets; preserved exactly 20 corner brackets (12 side YZ + 8 rear XZ) and 20 anchor pins with ZERO fastener over-constraint (joints with brackets omit anchor pins).",
+        "Generated multi-perspective verification screenshots: side_view_fasteners_20_20.png, frame_fasteners_20_20_iso.png, workstation_1600_v25_4_iso.png, workstation_1600_v25_4_front.png."
       ],
-      "notes": "V25.1 finalized: 550mm columns, 654mm tabletop, dual 170mm deep drawers, 89mm M2 clearance, full fastener hierarchy: 20 gusset brackets, 20 anchor pins, 12 through-bolts, 8 tabletop clips."
+      "notes": "V25.4 finalized: 550mm columns, 654mm tabletop, dual 170mm deep drawers, 89mm M2 clearance, 160mm offset bottom tray beams, exactly 20 corner brackets (12 side + 8 back), 20 anchor pins, 12 through-bolts, 8 tabletop clips. Zero over-constraint."
     }
   ]
 }

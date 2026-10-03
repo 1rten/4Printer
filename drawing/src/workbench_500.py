@@ -96,6 +96,7 @@ def create_bracket_xz(x_c, y, z_c, dx_sign, dz_sign, name, group=grp_fasteners):
     if group: group.addObject(obj)
     return obj
 
+
 def create_through_marker(x, y, z, name, group=grp_fasteners):
     """🔵 青色：M12 穿芯拉紧节点 (中心孔直穿拉紧套块，微突 1mm 保持 3D 全局可视)"""
     return create_cube(42, 42, 42, x - 1, y - 1, z - 21, name, C_THROUGH, transparency=30, group=group)
@@ -158,18 +159,18 @@ for x in [0, 780, 1560]:
         create_cube(40, 40, 550, x, y, 40, f"Col_X{x}_{'Back' if y else 'Front'}", C_ALUM, group=grp_frame)
 
 # Y 向横梁系统 (🟣 紫色锚钉固定)
-# - Bot(Z=0): X=0, 90, 690, 780, 870, 1470, 1560 (左右两舱各有2根底部 600mm 重载滑轨承托梁)
+# - Bot(Z=0): X=0, 200, 580, 780, 980, 1360, 1560 (左右两舱各2根托盘承托梁，距两侧梁净距精准设为 160mm)
 # - Mid(Z=340): X=0, 780, 1560 (左右两舱专用抽屉滑轨承重中梁，侧槽中心 Z=360mm)
 # - Top(Z=590): X=0, 350, 780, 1365, 1560 (X=350 正对 L4 重心，X=1365 正对 P1S 重心)
 y_levels = [
-    ("Bot", 0,   [0, 90, 690, 780, 870, 1470, 1560]),
+    ("Bot", 0,   [0, 200, 580, 780, 980, 1360, 1560]),
     ("Mid", 340, [0, 780, 1560]),
     ("Top", 590, [0, 350, 780, 1365, 1560]),
 ]
 for tag, z, xs in y_levels:
     for x in xs:
         create_cube(40, 720, 40, x, 40, z, f"Beam_Y_{tag}_X{x}", C_ALUM, group=grp_frame)
-        # 顶底 6 根立柱主 Y 梁（X=0, 780, 1560）由 12 颗压铸三角角码负责强力紧固，移除多余内嵌锚钉；
+        # 顶底 6 根立柱主 Y 梁（X=0, 780, 1560）由 12 颗压铸三角角码负责强力紧固，绝不重复安装多余内嵌锚钉；
         # 内部运动与功能梁（底层 4 根滑轨梁、中层 3 根抽屉梁、顶层 2 根加劲梁）保留纯内嵌锚钉
         if tag in ["Bot", "Top"] and x in [0, 780, 1560]:
             continue
@@ -189,9 +190,9 @@ for x in [0, 780, 1560]:
             create_through_marker(x, y, z, f"Through_Z{z}_X{x}", grp_fasteners)
 
 # ==============================================================================
-# 3. 🔴 红色：20 个防震三角斜撑压铸角码 (真实力学斜边)
+# 3. 🔴 红色：20 个防震三角斜撑压铸角码 (全要素物理连接，零紧固过约束)
 # ==============================================================================
-# 侧面 12 个三角斜撑角码 (顶角在 Z=590，底角在 Z=40)
+# 侧面 12 个三角斜撑角码 (左/中/右立柱与顶底 Y 梁连接处，顶角在 Z=590，底角在 Z=40)
 for name, x in [("Left", 6), ("Mid", 786), ("Right", 1566)]:
     for y, yt in [(40, "F"), (725, "B")]:
         for z_tag in ["T", "B"]:
@@ -201,7 +202,7 @@ for name, x in [("Left", 6), ("Mid", 786), ("Right", 1566)]:
             z_corner = 590 if z_tag == "T" else 40
             create_bracket_yz(x, y_corner, z_corner, dy_s, dz_s, f"B_{name}_{yt}{z_tag}", grp_fasteners)
 
-# 后面 8 个三角斜撑角码
+# 后面 8 个三角斜撑角码 (外框 4 外角 + 后十字 4 角，专职锁死 X 向高速换向晃动)
 back_brackets_spec = [
     ("B_Back_LT",  40,   766, 590,  1, -1),
     ("B_Back_LB",  40,   766, 40,   1,  1),
@@ -228,15 +229,15 @@ for x_pos in [100, 500, 1100, 1500]:
 # 1600mm 桌面海洋板 (Z=630, 厚度 24mm，顶标高 Z=654mm)
 create_cube(1600, 800, 24, 0, 0, 630, "Wood_Top_Board", C_WOOD, 20, group=grp_panels)
 
-# ----------------- (1) 底层：左右双超大抽拉托盘 (各 720×700×18mm，轨距 600mm) -----------------
-# 左舱激光托盘 (承载 xTool M2，顶面 Z=71mm，距中梁 Z=340 留整整 89mm 宽敞滑行净空)
-create_cube(30, 600, 53, 130,  60, 0, "Slide_LeftTray_L",  C_SLIDE, group=grp_panels)
-create_cube(30, 600, 53, 660,  60, 0, "Slide_LeftTray_R",  C_SLIDE, group=grp_panels)
+# ----------------- (1) 底层：左右双超大抽拉托盘 (各 720×700×18mm，两承重底梁内缩距两侧梁160mm，滑轨反向外装) -----------------
+# 左舱激光托盘 (承托梁 X=200..240 与 X=580..620，滑轨外装在 X=170..200 与 X=620..650)
+create_cube(30, 600, 53, 170,  60, 0, "Slide_LeftTray_L",  C_SLIDE, group=grp_panels)
+create_cube(30, 600, 53, 620,  60, 0, "Slide_LeftTray_R",  C_SLIDE, group=grp_panels)
 create_cube(720, 700, 18, 50,  50, 53, "Wood_Laser_Tray_Left", C_WOOD, 10, group=grp_panels)
 
-# 右舱物料托盘 (承载 600×600mm 原板大木材、亚克力原料或大型工具箱)
-create_cube(30, 600, 53, 910,  60, 0, "Slide_RightTray_L", C_SLIDE, group=grp_panels)
-create_cube(30, 600, 53, 1440, 60, 0, "Slide_RightTray_R", C_SLIDE, group=grp_panels)
+# 右舱物料托盘 (承托梁 X=980..1020 与 X=1360..1400，滑轨外装在 X=950..980 与 X=1400..1430)
+create_cube(30, 600, 53, 950,  60, 0, "Slide_RightTray_L", C_SLIDE, group=grp_panels)
+create_cube(30, 600, 53, 1400, 60, 0, "Slide_RightTray_R", C_SLIDE, group=grp_panels)
 create_cube(720, 700, 18, 830, 50, 53, "Wood_Material_Tray_Right", C_WOOD, 10, group=grp_panels)
 
 # ----------------- (2) 第一层：左右并列双超宽 2020 铝型材抽屉 (外宽各 680mm, 进深 550mm, 高 170mm, 净高 150mm) -----------------
@@ -304,8 +305,8 @@ print("  • 黄金等距间隙   : L4与佳能、佳能与P1S之间间隙均为
 print("  • 桌面实操前带   : 佳能与P1S前方形成 833×350~400mm 纯净作业区(笔记本/工具)")
 print("  • 顶置AMS人机高度: AMS 顶高 1335 mm，换料平视胸口位置，零疲劳")
 print("📦 五金物料装配清单 (BOM Summary):")
-print("  • 4040 压铸铝三角抗震角码 (45° 加厚肋) : 20 套 (含配套 M8 半圆头螺栓+T型螺母)")
-print("  • 4040 隐形内嵌锚式销钉套件 (Φ12销轴) : 20 套 (含内六角顶紧螺钉)")
+print("  • 4040 压铸铝三角抗震角码 (45° 加厚肋) : 20 套 (侧面 12 套 + 后面 8 套)")
+print("  • 4040 隐形内嵌锚式销钉套件 (Φ12销轴) : 20 套 (底层4根滑轨梁 8 + 顶层2根加劲梁 4 + 中层3根抽屉梁 6 + 后中梁两端 2)")
 print("  • M12/M8 垂直中心贯穿拉紧螺栓套件     : 12 支 (含平垫片)")
 print("  • 桌面板 T型槽防震固定扣件             : 8 套 (含自攻木螺钉)")
 print("  • 600mm 重载三节静音阻尼滑轨           : 4 条 (左右双大托盘各2条)")

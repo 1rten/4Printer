@@ -128,10 +128,22 @@
   - MCP `execute_code`: BoundBox X=1600.0, Y=800.0, Z=630.0mm.
   - Artifact images: `workstation_1600_v25_1.png` (Isometric view) and `workstation_1600_v25_1_front.png` (Front elevation view).
 - **Next Best Action**:
-  - Proceed with `cad-002`: Implement automated bounding box assertion checks.
+  - Proceed with Session 6 updates.
 
-
-
-
-
-
+### Session 6 - 2026-10-03 (Fastener Streamlining & Side Bracket Hierarchy - V25.4)
+- **Goal**: Finalize fastener hierarchy (20 corner brackets, 20 anchor pins, 12 through-bolts, 8 clips) with zero over-constraint, restore side YZ brackets, and offset bottom tray beams by 160mm.
+- **Completed**:
+  - [x] Offset 4 bottom tray support beams inward to exactly 160mm clear distance from side frame beams (`X=200..240`, `580..620` in Left Bay; `X=980..1020`, `1360..1400` in Right Bay).
+  - [x] Mounted 600mm slide rails on outer faces of tray support beams (`X=170..200`, `620..650`, `950..980`, `1400..1430`).
+  - [x] Restored 12 side triangular corner brackets in YZ plane (Left 4, Mid 4, Right 4), locking column-to-Y-beam perpendicularity without blocking drawers or trays.
+  - [x] Enforced zero over-constraint rule: wherever corner brackets exist (12 side + 8 back), anchor pins are completely omitted.
+  - [x] Retained exactly 20 anchor pins for internal functional beams (4 slide support × 2 = 8, 2 top reinforcement × 2 = 4, 3 mid drawer × 2 = 6, 2 rear outer = 2).
+  - [x] Retained 12 M12 through-bolts (6 columns × 2 ends) and 8 tabletop clips.
+  - [x] Verified via headless FreeCAD (`freecadcmd drawing/src/workbench_500.py`) with exit code 0.
+  - [x] Verified live in FreeCAD GUI via MCP `execute_code`: 60 fasteners generated across 4 groups (20 brackets, 20 anchors, 12 through-bolts, 8 clips).
+  - [x] Generated multi-perspective screenshots: `side_view_fasteners_20_20.png`, `frame_fasteners_20_20_iso.png`, `workstation_1600_v25_4_iso.png`, `workstation_1600_v25_4_front.png`.
+- **Verification Evidence**:
+  - `freecadcmd drawing/src/workbench_500.py`: Exit code 0, 108 objects generated.
+  - Live FreeCAD GUI: 20 Brackets (Side: 12, Back: 8), 20 Anchors, 12 Through-bolts, 8 Clips.
+- **Next Best Action**:
+  - Commit clean changes to git.
