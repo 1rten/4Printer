@@ -164,8 +164,8 @@
       "id": "cad-005",
       "priority": 1.5,
       "area": "cad-modeling",
-      "title": "1600x800x630mm Workstation (V25.0: 550mm Columns, 654mm Tabletop, Dual 170mm Deep Drawers, 89mm M2 Clearance)",
-      "user_visible_behavior": "Parametric FreeCAD script in drawing/src/workbench_500.py generates a 1600x800x630mm heavy workstation (tabletop at 654mm) with symmetrical dual 740mm bays: 550mm upright columns, lower tier with two 720x700mm slide trays (left for xTool M2 with 89mm top clearance, right for material sheets/stock), first tier with two matching 680x550x170mm 2020 aluminum deep drawers (150mm internal net depth), and tabletop carrying L4, Canon MF113w, and P1S+AMS (top at 1335mm, chest height) with equal 72mm clearances.",
+      "title": "1600x800x630mm Workstation (V26.0 Master Edition: 19 4040 Profiles, 16 Brackets, 6 Anchors, Direct Mount Slide Trays)",
+      "user_visible_behavior": "Parametric FreeCAD script in drawing/src/workbench_500.py generates a 1600x800x630mm heavy workstation (tabletop at 654mm) with symmetrical dual 740mm bays: 550mm upright columns, lower tier with two 700x700mm slide trays directly mounted to boundary Y-beams (left for xTool M2 with 89mm top clearance, right for material sheets/stock), first tier with two matching 680x550x170mm 2020 aluminum deep drawers (150mm internal net depth), and tabletop carrying L4, Canon MF113w, and P1S+AMS (top at 1335mm, chest height) with equal 72mm clearances. Zero over-constraint, 16 brackets, 6 anchors, 12 through-bolts.",
       "status": "passing",
       "verification": [
         "Run /Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd drawing/src/workbench_500.py < /dev/null",
@@ -175,19 +175,16 @@
         "Created drawing/src/workbench_500.py with 1600x800x630mm envelope (columns at X=0, 780, 1560, height 550mm, tabletop at Z=654mm).",
         "Verified headless execution via /Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd drawing/src/workbench_500.py with exit code 0.",
         "Verified in live FreeCAD GUI via MCP execute_code: Frame BoundingBox is exactly 1600.0x800.0x630.0mm, tabletop at Z=630..654mm.",
-        "Bottom Tier: Left 720x700mm slide tray carries xTool M2 (610x569x180mm) at X=105, Y=90, Z=71 with 89mm top clearance under mid-beam (Z=340); Right 720x700mm slide tray carries 600mm sheet materials/stock.",
+        "Bottom Tier: Left 700x700mm slide tray carries xTool M2 (610x569x180mm) at X=105, Y=90, Z=71 with 89mm top clearance under mid-beam (Z=340); Right 700x700mm slide tray carries 600mm sheet materials/stock.",
         "First Tier (Top): Left 680x550x170mm 2020 aluminum drawer (net depth 150mm) above laser machine; Right matching 680x550x170mm drawer for 3D printing tools at Z=390..560mm.",
         "Desktop: L4 at X=40..655, Canon MF113w at X=727..1099, P1S at X=1171..1560 with AMS stacked at Z=1111..1335mm (chest height). Equal 72.0mm clearances on both sides of Canon.",
         "Preserved 833x350~400mm clear front-edge work apron in front of Canon and P1S.",
-        "Fixed bottom tray slide rail coordinates: corrected Slide_LeftTray_L from X=90 to X=130 and Slide_RightTray_L from X=870 to X=910 to flush-mount symmetrically on the inner faces of bottom Y-beams.",
-        "Eliminated redundant anchor pins at rear cross intersection (Anchor_X_Mid_X780, X820), relying purely on 4 gusset brackets (B_Cross_*) for maximum rigidity and clean assembly without over-constraint.",
-        "Optimized Y-axis beam fasteners: eliminated 12 redundant anchor pins on the 6 main Y beams (3 top, 3 bot at X=0, 780, 1560) which are firmly secured by 12 die-cast triangular brackets in YZ plane. Retained 20 pure anchor pins for internal functional beams (4 slide support, 2 top reinforcement, 3 mid drawer, 2 rear outer).",
-        "Captured updated 3D isometric and front view screenshots in FreeCAD (workstation_1600_v25_1.png, workstation_1600_v25_1_front.png).",
-        "V25.4 Upgrade: Offset 4 bottom tray support beams inward to exactly 160mm clear distance from side frame beams (X=200..240, 580..620 in Left Bay; X=980..1020, 1360..1400 in Right Bay) with slide rails mounted on outer faces (X=170..200, 620..650, 950..980, 1400..1430).",
-        "Eliminated 16 horizontal top/bottom brackets; preserved exactly 20 corner brackets (12 side YZ + 8 rear XZ) and 20 anchor pins with ZERO fastener over-constraint (joints with brackets omit anchor pins).",
-        "Generated multi-perspective verification screenshots: side_view_fasteners_20_20.png, frame_fasteners_20_20_iso.png, workstation_1600_v25_4_iso.png, workstation_1600_v25_4_front.png."
+        "V26.0 Master Streamlining: Eliminated 2 rear mid-beams, 4 cross brackets, 2 top reinforcement beams, and 4 bottom tray support beams. Saved 5.8m of 4040 aluminum (down to 19 pieces, 16.18m).",
+        "Slide rails directly mounted to boundary Y-beams at X=40, 780, 820, 1560; trays sized at 700x700mm.",
+        "Fastener hierarchy: 16 corner brackets (12 side YZ + 4 rear outer XZ), 6 anchor pins (middle drawer beams only), 12 M12 through-bolts, 8 tabletop clips. Exactly 42 fasteners total.",
+        "Generated multi-perspective verification screenshots: workstation_1600_v26_iso.png, workstation_1600_v26_front.png, workstation_1600_v26_rear.png, workstation_1600_v26_bottom.png, workstation_1600_v26_frame_fasteners_iso.png."
       ],
-      "notes": "V25.4 finalized: 550mm columns, 654mm tabletop, dual 170mm deep drawers, 89mm M2 clearance, 160mm offset bottom tray beams, exactly 20 corner brackets (12 side + 8 back), 20 anchor pins, 12 through-bolts, 8 tabletop clips. Zero over-constraint."
+      "notes": "V26.0 Master Edition finalized: 19 4040 profiles (16.18m), 16 brackets, 6 anchors, 12 through-bolts, 8 tabletop clips, dual 700x700 slide trays direct mount, 550mm columns, 654mm tabletop, dual 170mm deep drawers. Zero over-constraint, maximum space and efficiency."
     }
   ]
 }
