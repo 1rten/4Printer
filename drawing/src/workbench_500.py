@@ -2,30 +2,31 @@ import FreeCAD as App
 import Part
 
 # ==============================================================================
-# FreeCAD Python 脚本：1600x800x550mm 终极工作站 (V24.0 全对称双层架构: 左右双抽屉+左右双拉盘)
+# FreeCAD Python 脚本：1600x800x630mm 终极工作站 (V25.0 550mm立柱版: 双大深抽屉+双大拉盘)
 # ==============================================================================
 # 核心结构与装配规格：
-# 1. 框架整体尺寸：1600 mm (长) × 800 mm (深) × 550 mm (高)，台面标高 574 mm
+# 1. 框架整体尺寸：1600 mm (长) × 800 mm (深) × 630 mm (高)，台面标高 654 mm (工学椅黄金坐姿)
 # 2. 完美的上下分层全对称美学架构：
-#    - 【第一层：左右并列双大抽屉】(标高 Z=360..490 mm，外宽各 680 mm，深 550 mm，高 130 mm)：
+#    - 【第一层：左右并列双大深抽屉】(标高 Z=390..560 mm，外宽各 680 mm，深 550 mm，高 170 mm，净高 150 mm)：
 #      • 左抽屉：位于激光机正上方，专储激光雕刻防护镜、对焦耗材、夹具零件
 #      • 右抽屉：位于右下托盘正上方，专储 3D 打印铲刀、喷嘴、工具、五金配件
 #      • 均为高强度 2020 铝型材内胆 + 5mm 亚克力底板
 #    - 【底层：左右双超大抽拉托盘】(标高 Z=53..71 mm，宽各 720 mm，深 700 mm，配 600mm 重载滑轨)：
-#      • 左托盘：承载 xTool M2 (610×569×180mm)，上方留 49mm 顺畅滑行间隙，后方留 141mm 排烟通道
+#      • 左托盘：承载 xTool M2 (610×569×180mm)，上方留整整 89mm 超宽敞滑行净空，后方留 141mm 排烟通道
 #      • 右托盘：超大原材料与重型耗材抽拉仓，可平放整叠 600×600mm 木板/亚克力原料、整箱纸张
-# 3. 桌面三机并列旗舰系统 (Z=574 mm, 1600×800×24mm 桦木海洋板)：
-#    - 左侧：LightMake L4 工业机 (615×624×677mm)，X=40..655
+# 3. 桌面三机并列旗舰系统 (Z=654 mm, 1600×800×24mm 桦木海洋板)：
+#    - 左侧：LightMake L4 工业机 (615×624×677mm)，X=40..655, 顶高 1331 mm
 #    - 中间：佳能 MF113w 激光一体机 (372×320×255mm)，X=727..1099，后靠摆放，顶盖无遮挡掀盖扫描
-#    - 右侧：Bambu Lab P1S (389×389×457mm) + 顶置 AMS (368×271×224mm)，X=1171..1560
-#    - 黄金对称间距：L4 与 佳能、佳能 与 P1S 之间间距均为 72.0 mm（整手伸入按开关与散热）
+#    - 右侧：Bambu Lab P1S (389×389×457mm) + 顶置 AMS (368×271×224mm)，X=1171..1560，顶高 1335 mm (胸前舒适区)
+#    - 黄金对称间距：L4 与 佳能、佳能 与 P1S 之间间距均为 72.0 mm
 #    - 前沿纯净作业带：佳能与 P1S 正前方形成长达 833 mm、深 350~400 mm 的平整电脑与手工操作台
 # 4. 全要素物理连接件：红角码(20)、青穿芯(12)、紫锚钉(36)、银白桌面平扣(8)
 # ==============================================================================
 
-doc_name = "Workstation_1600x800x550_DualTrays_DualDrawers"
-if doc_name in App.listDocuments().keys():
-    App.closeDocument(doc_name)
+doc_name = "Workstation_1600x800x630_DualTrays_DualDrawers"
+for old_name in ["Workstation_1600x800x550_DualTrays_DualDrawers", doc_name]:
+    if old_name in App.listDocuments().keys():
+        App.closeDocument(old_name)
 doc = App.newDocument(doc_name)
 
 # ----------------- 材质与设备配色库 -----------------
@@ -141,29 +142,29 @@ def create_2020_drawer(w, d, h, x, y, z, name_prefix, group=grp_panels, pull_off
     create_cube(20, d - 40, 20, x + w - 20, y_eff + 20, top_z, f"{name_prefix}_Top_Right_2020", C_DRAWER_ALUM, group=group)
 
 # ==============================================================================
-# 1. 铝型材骨架系统 (4040 刚性闭环，长 1600mm，总高 550mm)
+# 1. 铝型材骨架系统 (4040 刚性闭环，长 1600mm，立柱 550mm，总高 630mm)
 # ==============================================================================
-# 4 根长 1600mm X 向外框横梁 (底面 Z=0, 顶面 Z=510)
-for y, z in [(0, 0), (760, 0), (0, 510), (760, 510)]:
+# 4 根长 1600mm X 向外框横梁 (底面 Z=0, 顶面 Z=590)
+for y, z in [(0, 0), (760, 0), (0, 590), (760, 590)]:
     create_cube(1600, 40, 40, 0, y, z, f"Beam_X_{'Top' if z else 'Bot'}_{'Back' if y else 'Front'}", C_ALUM, group=grp_frame)
 
-# 2 根后部中段加强梁 (左右两舱通长对齐 Z=300mm，承托上层抽屉滑轨)
-create_cube(740, 40, 40, 40,  760, 300, "Beam_X_Back_Mid_LeftSeg",  C_ALUM, group=grp_frame)
-create_cube(740, 40, 40, 820, 760, 300, "Beam_X_Back_Mid_RightSeg", C_ALUM, group=grp_frame)
+# 2 根后部中段加强梁 (左右两舱通长对齐 Z=340mm，承托上层抽屉滑轨)
+create_cube(740, 40, 40, 40,  760, 340, "Beam_X_Back_Mid_LeftSeg",  C_ALUM, group=grp_frame)
+create_cube(740, 40, 40, 820, 760, 340, "Beam_X_Back_Mid_RightSeg", C_ALUM, group=grp_frame)
 
-# 6 根主立柱 (高度 470mm，跨距 Z=40..510，中柱 X=780..820，右柱 X=1560..1600)
+# 6 根主立柱 (高度 550mm，跨距 Z=40..590，中柱 X=780..820，右柱 X=1560..1600)
 for x in [0, 780, 1560]:
     for y in [0, 760]:
-        create_cube(40, 40, 470, x, y, 40, f"Col_X{x}_{'Back' if y else 'Front'}", C_ALUM, group=grp_frame)
+        create_cube(40, 40, 550, x, y, 40, f"Col_X{x}_{'Back' if y else 'Front'}", C_ALUM, group=grp_frame)
 
 # Y 向横梁系统 (🟣 紫色锚钉固定)
 # - Bot(Z=0): X=0, 90, 690, 780, 870, 1470, 1560 (左右两舱各有2根底部 600mm 重载滑轨承托梁)
-# - Mid(Z=300): X=0, 780, 1560 (左右两舱专用抽屉滑轨承重中梁，侧槽中心 Z=320mm)
-# - Top(Z=510): X=0, 350, 780, 1365, 1560 (X=350 正对 L4 重心，X=1365 正对 P1S 重心)
+# - Mid(Z=340): X=0, 780, 1560 (左右两舱专用抽屉滑轨承重中梁，侧槽中心 Z=360mm)
+# - Top(Z=590): X=0, 350, 780, 1365, 1560 (X=350 正对 L4 重心，X=1365 正对 P1S 重心)
 y_levels = [
     ("Bot", 0,   [0, 90, 690, 780, 870, 1470, 1560]),
-    ("Mid", 300, [0, 780, 1560]),
-    ("Top", 510, [0, 350, 780, 1365, 1560]),
+    ("Mid", 340, [0, 780, 1560]),
+    ("Top", 590, [0, 350, 780, 1365, 1560]),
 ]
 for tag, z, xs in y_levels:
     for x in xs:
@@ -173,58 +174,58 @@ for tag, z, xs in y_levels:
 
 # 后中跨横梁端头锚式连接
 for x in [40, 780, 820, 1560]:
-    create_anchor_pin(x, 760, 300, f"Anchor_X_Mid_X{x}", 'X', grp_fasteners)
+    create_anchor_pin(x, 760, 340, f"Anchor_X_Mid_X{x}", 'X', grp_fasteners)
 
 # ==============================================================================
 # 2. 🔵 青色：M12 穿芯拉紧节点阵列 (12 处高可视节点)
 # ==============================================================================
 for x in [0, 780, 1560]:
     for y in [0, 760]:
-        for z in [40, 510]:
+        for z in [40, 590]:
             create_through_marker(x, y, z, f"Through_Z{z}_X{x}", grp_fasteners)
 
 # ==============================================================================
 # 3. 🔴 红色：20 个防震三角斜撑压铸角码 (真实力学斜边)
 # ==============================================================================
-# 侧面 12 个三角斜撑角码 (顶角在 Z=510，底角在 Z=40)
+# 侧面 12 个三角斜撑角码 (顶角在 Z=590，底角在 Z=40)
 for name, x in [("Left", 6), ("Mid", 786), ("Right", 1566)]:
     for y, yt in [(40, "F"), (725, "B")]:
         for z_tag in ["T", "B"]:
             dy_s = 1 if yt == "F" else -1
             dz_s = -1 if z_tag == "T" else 1
             y_corner = 40 if yt == "F" else 760
-            z_corner = 510 if z_tag == "T" else 40
+            z_corner = 590 if z_tag == "T" else 40
             create_bracket_yz(x, y_corner, z_corner, dy_s, dz_s, f"B_{name}_{yt}{z_tag}", grp_fasteners)
 
 # 后面 8 个三角斜撑角码
 back_brackets_spec = [
-    ("B_Back_LT",  40,   766, 510,  1, -1),
+    ("B_Back_LT",  40,   766, 590,  1, -1),
     ("B_Back_LB",  40,   766, 40,   1,  1),
-    ("B_Back_RT",  1560, 766, 510, -1, -1),
+    ("B_Back_RT",  1560, 766, 590, -1, -1),
     ("B_Back_RB",  1560, 766, 40,  -1,  1),
-    ("B_Cross_LT", 780,  766, 340, -1,  1),
-    ("B_Cross_RT", 820,  766, 340,  1,  1),
-    ("B_Cross_LB", 780,  766, 300, -1, -1),
-    ("B_Cross_RB", 820,  766, 300,  1, -1),
+    ("B_Cross_LT", 780,  766, 380, -1,  1),
+    ("B_Cross_RT", 820,  766, 380,  1,  1),
+    ("B_Cross_LB", 780,  766, 340, -1, -1),
+    ("B_Cross_RB", 820,  766, 340,  1, -1),
 ]
 for name, xc, y, zc, dx_s, dz_s in back_brackets_spec:
     create_bracket_xz(xc, y, zc, dx_s, dz_s, name, grp_fasteners)
 
 # ==============================================================================
-# 4. ⚪ 桌面物理固定扣件 (8 处 T 槽台面平扣，Z=544 贴合桌面底)
+# 4. ⚪ 桌面物理固定扣件 (8 处 T 槽台面平扣，Z=624 贴合桌面底)
 # ==============================================================================
 for x_pos in [100, 500, 1100, 1500]:
-    create_cube(30, 20, 6, x_pos, 20,  544, f"Top_Clip_Front_X{x_pos}", C_CLIP, group=grp_fasteners)
-    create_cube(30, 20, 6, x_pos, 760, 544, f"Top_Clip_Back_X{x_pos}",  C_CLIP, group=grp_fasteners)
+    create_cube(30, 20, 6, x_pos, 20,  624, f"Top_Clip_Front_X{x_pos}", C_CLIP, group=grp_fasteners)
+    create_cube(30, 20, 6, x_pos, 760, 624, f"Top_Clip_Back_X{x_pos}",  C_CLIP, group=grp_fasteners)
 
 # ==============================================================================
 # 5. 板材、底层左右双拉盘 与 第一层左右双大抽屉系统
 # ==============================================================================
-# 1600mm 桌面海洋板 (Z=550, 厚度 24mm，顶标高 Z=574mm)
-create_cube(1600, 800, 24, 0, 0, 550, "Wood_Top_Board", C_WOOD, 20, group=grp_panels)
+# 1600mm 桌面海洋板 (Z=630, 厚度 24mm，顶标高 Z=654mm)
+create_cube(1600, 800, 24, 0, 0, 630, "Wood_Top_Board", C_WOOD, 20, group=grp_panels)
 
 # ----------------- (1) 底层：左右双超大抽拉托盘 (各 720×700×18mm，轨距 600mm) -----------------
-# 左舱激光托盘 (承载 xTool M2，顶面 Z=71mm，距中梁 Z=300 留 49mm 滑行净空)
+# 左舱激光托盘 (承载 xTool M2，顶面 Z=71mm，距中梁 Z=340 留整整 89mm 宽敞滑行净空)
 create_cube(30, 600, 53, 130,  60, 0, "Slide_LeftTray_L",  C_SLIDE, group=grp_panels)
 create_cube(30, 600, 53, 660,  60, 0, "Slide_LeftTray_R",  C_SLIDE, group=grp_panels)
 create_cube(720, 700, 18, 50,  50, 53, "Wood_Laser_Tray_Left", C_WOOD, 10, group=grp_panels)
@@ -234,43 +235,43 @@ create_cube(30, 600, 53, 910,  60, 0, "Slide_RightTray_L", C_SLIDE, group=grp_pa
 create_cube(30, 600, 53, 1440, 60, 0, "Slide_RightTray_R", C_SLIDE, group=grp_panels)
 create_cube(720, 700, 18, 830, 50, 53, "Wood_Material_Tray_Right", C_WOOD, 10, group=grp_panels)
 
-# ----------------- (2) 第一层：左右并列双超宽 2020 铝型材抽屉 (外宽各 680mm, 进深 550mm, 高 130mm) -----------------
+# ----------------- (2) 第一层：左右并列双超宽 2020 铝型材抽屉 (外宽各 680mm, 进深 550mm, 高 170mm, 净高 150mm) -----------------
 # 左抽屉：位于激光机正上方 (X=70..750, 净宽 740mm)，向前抽拉 100mm 展示内部结构
 PULL_LEFT_DRAWER = 100
-create_cube(13, 550, 45, 41,  60, 345, "Slide_DrawL_Outer_L", C_SLIDE, group=grp_panels)
-create_cube(13, 550, 45, 766, 60, 345, "Slide_DrawL_Outer_R", C_SLIDE, group=grp_panels)
-create_2020_drawer(680, 550, 130, 60, 60, 350, "Drawer_Left_LaserTools", group=grp_panels, pull_offset=PULL_LEFT_DRAWER)
+create_cube(13, 550, 45, 41,  60, 385, "Slide_DrawL_Outer_L", C_SLIDE, group=grp_panels)
+create_cube(13, 550, 45, 766, 60, 385, "Slide_DrawL_Outer_R", C_SLIDE, group=grp_panels)
+create_2020_drawer(680, 550, 170, 60, 60, 390, "Drawer_Left_LaserTools", group=grp_panels, pull_offset=PULL_LEFT_DRAWER)
 
 # 右抽屉：位于右下物料托盘正上方 (X=850..1530)，保持完全闭合收纳状态
-create_cube(13, 550, 45, 821,  60, 345, "Slide_DrawR_Outer_L", C_SLIDE, group=grp_panels)
-create_cube(13, 550, 45, 1546, 60, 345, "Slide_DrawR_Outer_R", C_SLIDE, group=grp_panels)
-create_2020_drawer(680, 550, 130, 850, 60, 350, "Drawer_Right_3DTools", group=grp_panels, pull_offset=0)
+create_cube(13, 550, 45, 821,  60, 385, "Slide_DrawR_Outer_L", C_SLIDE, group=grp_panels)
+create_cube(13, 550, 45, 1546, 60, 385, "Slide_DrawR_Outer_R", C_SLIDE, group=grp_panels)
+create_2020_drawer(680, 550, 170, 850, 60, 390, "Drawer_Right_3DTools", group=grp_panels, pull_offset=0)
 
 # ==============================================================================
 # 6. 设备就位 (下层 M2 + 桌面并列三剑客：L4 + 佳能MF113w + P1S/AMS叠放)
 # ==============================================================================
 # (1) 左舱托盘：xTool M2 (610 mm 宽 × 569 mm 深 × 180 mm 高)
-#     - 居中居前：X=105, Y=90, Z=71 (顶高 Z=251mm，距上方中梁 Z=300mm 留有整整 49mm 宽敞净空)
+#     - 居中居前：X=105, Y=90, Z=71 (顶高 Z=251mm，距上方中梁 Z=340mm 留有整整 89mm 宽敞净空)
 #     - 托盘后部留出 141mm (Y=659..750) 顺畅排烟与电源线区域
 create_cube(610, 569, 180, 105, 90, 71, "Machine_xTool_M2", C_M2, 30, group=grp_equip)
 
 # (2) 桌面左侧: LightMake L4 工业机 (中心对齐 X=350 加劲梁)
-#     - X=40..655, 宽 615mm, 深 624mm, 高 677mm, 标高 Z=574mm
-create_cube(615, 624, 677, 40, 100, 574, "Machine_LightMake_L4", C_L4, 20, group=grp_equip)
+#     - X=40..655, 宽 615mm, 深 624mm, 高 677mm, 标高 Z=654mm, 顶高 1331 mm
+create_cube(615, 624, 677, 40, 100, 654, "Machine_LightMake_L4", C_L4, 20, group=grp_equip)
 
 # (3) 桌面中段: 佳能 MF113w 激光一体机 (372×320×255mm，后靠放置留出前方作业台)
 #     - X=727..1099，与 L4 间距恰好 72 mm，顶盖无遮挡，掀盖扫描/复印畅通无阻
-#     - 标高 Z=574mm，坐姿伸手即达
-create_cube(372, 320, 255, 727, 400, 574, "Machine_Canon_MF113w", C_CANON, 25, group=grp_equip)
+#     - 标高 Z=654mm，顶高 909 mm，坐姿伸手即达
+create_cube(372, 320, 255, 727, 400, 654, "Machine_Canon_MF113w", C_CANON, 25, group=grp_equip)
 
 # (4) 桌面右侧: Bambu Lab P1S 主机 (389×389×457mm)
 #     - X=1171..1560，与 佳能间距恰好 72 mm，右侧边缘余量 40 mm
-#     - 标高 Z=574mm
-create_cube(389, 389, 457, 1171, 350, 574, "Machine_Bambu_P1S", C_P1S, 30, group=grp_equip)
+#     - 标高 Z=654mm，主机顶高 1111 mm
+create_cube(389, 389, 457, 1171, 350, 654, "Machine_Bambu_P1S", C_P1S, 30, group=grp_equip)
 
 # (5) 桌面右侧: Bambu AMS 自动供料系统 (顶置叠放于 P1S 上盖)
-#     - 标高 Z=1031..1255mm (站姿胸口手肘位置，装料换卷极顺手)
-create_cube(368, 271, 224, 1181.5, 410, 1031, "Machine_Bambu_AMS", C_AMS, 30, group=grp_equip)
+#     - 标高 Z=1111..1335mm (站姿胸口手肘位置，装料换卷极顺手)
+create_cube(368, 271, 224, 1181.5, 410, 1111, "Machine_Bambu_AMS", C_AMS, 30, group=grp_equip)
 
 # ==============================================================================
 # 7. 刷新视角与装配 BOM 清单生成
@@ -285,18 +286,19 @@ except Exception:
     pass
 
 print("\n" + "=" * 62)
-print("🛠️  1600x800x550mm 终极工作站 (V24.0 双大抽屉+双大拉盘+桌面三机版) 构建成功！")
+print("🛠️  1600x800x630mm 终极工作站 (V25.0 550mm立柱+双大深抽屉+双大拉盘版) 构建成功！")
 print("=" * 62)
 print("📐 关键几何特征:")
-print("  • 框架外包围尺寸 : 1600 mm (长) × 800 mm (深) × 550 mm (高)")
-print("  • 台面顶高       : 574 mm (含 24mm 桦木海洋板)")
+print("  • 框架外包围尺寸 : 1600 mm (长) × 800 mm (深) × 630 mm (高)")
+print("  • 主立柱下料长度 : 550 mm (共 6 根)")
+print("  • 台面顶高       : 654 mm (含 24mm 桦木海洋板，黄金坐姿矮工位)")
 print("  • 完美全对称架构 : 左右两舱净宽均为 740 mm！")
-print("  • 第一层(双抽屉) : 左右各一个 680×550×130mm 2020 铝型材宽体大抽屉")
-print("  • 底层(双大托盘) : 左右各一个 720×700×18mm 超大抽拉托盘 (左M2，右原板材仓)")
+print("  • 第一层(双深抽屉): 左右各一个 680×550×170mm 2020 铝型材宽体深抽屉 (净深高 150mm)")
+print("  • 底层(双大托盘) : 左右各一个 720×700×18mm 超大抽拉托盘 (左M2留89mm净空，右原板材仓)")
 print("  • 桌面三机并列   : L4(宽615) + 佳能MF113w(宽372) + P1S(宽389)")
 print("  • 黄金等距间隙   : L4与佳能、佳能与P1S之间间隙均为 72.0 mm（手掌自由伸入）")
 print("  • 桌面实操前带   : 佳能与P1S前方形成 833×350~400mm 纯净作业区(笔记本/工具)")
-print("  • 顶置AMS人机高度: AMS 顶高 1255 mm，换料完全平视胸口位置，零疲劳")
+print("  • 顶置AMS人机高度: AMS 顶高 1335 mm，换料平视胸口位置，零疲劳")
 print("📦 五金物料装配清单 (BOM Summary):")
 print("  • 4040 压铸铝三角抗震角码 (45° 加厚肋) : 20 套 (含配套 M8 半圆头螺栓+T型螺母)")
 print("  • 4040 隐形内嵌锚式销钉套件 (Φ12销轴) : 36 套 (含内六角顶紧螺钉)")
@@ -304,6 +306,6 @@ print("  • M12/M8 垂直中心贯穿拉紧螺栓套件     : 12 支 (含平垫
 print("  • 桌面板 T型槽防震固定扣件             : 8 套 (含自攻木螺钉)")
 print("  • 600mm 重载三节静音阻尼滑轨           : 4 条 (左右双大托盘各2条)")
 print("  • 550mm 三节阻尼静音滑轨               : 4 条 (左右双大抽屉各2条)")
-print("  • 4040 国标轻/重型铝型材总切割长度     : 21.08 米 (共 27 根)")
-print("  • 2020 铝型材抽屉内胆总切割长度       : 13.84 米 (共 24 根)")
+print("  • 4040 国标轻/重型铝型材总切割长度     : 21.98 米 (共 27 根)")
+print("  • 2020 铝型材抽屉内胆总切割长度       : 10.56 米 (共 24 根)")
 print("=" * 62 + "\n")

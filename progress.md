@@ -105,25 +105,25 @@
 - **Next Best Action**:
   - Proceed with `cad-002`: Implement automated bounding box (1400×800×700mm) assertion checks.
 
-### Session 5 - 2026-10-03 (1600x800x550mm Workstation - V24.0: Dual Upper Drawers & Dual Lower Trays)
-- **Goal**: Finalize heavy-duty low workstation `drawing/src/workbench_500.py` following user requirement: 1600 mm (L) × 800 mm (D) × 550 mm (H) with dual upper 680mm drawers (left drawer above xTool M2, right drawer above material tray), dual lower 720×700mm slide trays, and Canon MF113w on the tabletop alongside L4 and P1S+AMS (`cad-005`).
+### Session 5 - 2026-10-03 (1600x800x630mm Workstation - V25.0: 550mm Columns, 654mm Tabletop, Dual 170mm Deep Drawers)
+- **Goal**: Upgrade workstation `drawing/src/workbench_500.py` to V25.0: increase upright column height by 80mm from 470mm to 550mm (tabletop at 654mm, golden ergonomic sitting posture), expand drawers to 170mm deep (150mm internal net depth), increase xTool M2 clearance to 89mm, and maintain AMS at optimal chest height (1335mm).
 - **Completed**:
-  - [x] Frame envelope set to 1600 mm (L) × 800 mm (D) × 550 mm (H) (columns 470mm, Z=40..510, tabletop surface at 574 mm).
-  - [x] Symmetrical 6-column architecture (X=0..40, 780..820, 1560..1600): Left and Right bays each have 740 mm net width.
-  - [x] Left bottom bay: 720 mm (W) × 700 mm (D) × 18 mm slide tray seating xTool M2 (610×569×180mm) with 49mm top clearance under mid-beam (Z=300).
-  - [x] Left top tier: 680 mm (W) × 550 mm (D) × 130 mm (H) 2020 aluminum drawer above laser machine for laser tools/optics.
+  - [x] Frame envelope updated to 1600 mm (L) × 800 mm (D) × 630 mm (H) (columns 550mm, Z=40..590, tabletop surface at 654 mm).
+  - [x] Symmetrical dual 740mm bays with 550mm upright columns (standard integer cut length).
+  - [x] Left bottom bay: 720 mm (W) × 700 mm (D) × 18 mm slide tray seating xTool M2 (610×569×180mm) with expanded 89mm top clearance under mid-beam (Z=340).
+  - [x] Left top tier: 680 mm (W) × 550 mm (D) × 170 mm (H) 2020 aluminum deep drawer (internal net depth 150mm) above laser machine for laser tools/optics.
   - [x] Right bottom bay: Symmetrical 720 mm (W) × 700 mm (D) × 18 mm slide tray for raw sheet stock (600×600mm) and materials.
-  - [x] Right top tier: Matching 680 mm (W) × 550 mm (D) × 130 mm (H) 2020 aluminum drawer for 3D printing tools and accessories.
-  - [x] Desktop (1600×800×24mm, Z=550..574mm): LightMake L4 on left (X=40..655), Canon MF113w in center (X=727..1099), Bambu Lab P1S on right (X=1171..1560) with AMS stacked on top (Z=1031..1255mm, optimal chest height).
+  - [x] Right top tier: Matching 680 mm (W) × 550 mm (D) × 170 mm (H) 2020 aluminum deep drawer for 3D printing tools and accessories.
+  - [x] Desktop (1600×800×24mm, Z=630..654mm): LightMake L4 on left (X=40..655, top 1331mm), Canon MF113w in center (X=727..1099, top 909mm), Bambu Lab P1S on right (X=1171..1560, top 1111mm) with AMS stacked on top (Z=1111..1335mm, chest height, effortless filament loading).
   - [x] Symmetrical clearances: Exactly 72.0 mm (7.2 cm) clearances on both sides of Canon.
   - [x] Preserved 833 mm wide × 350~400 mm deep clear front-edge work apron in front of Canon and P1S.
-  - [x] Corrected bottom slide rail coordinates: fixed `Slide_LeftTray_L` from X=90 to X=130 and `Slide_RightTray_L` from X=870 to X=910, eliminating beam overlap and achieving perfect symmetry across both bays.
-  - [x] Verified via headless `freecadcmd drawing/src/workbench_500.py` (exit code 0).
-  - [x] Verified live in FreeCAD GUI via MCP `execute_code` (bounding box 1600.0x800.0x550.0mm).
+  - [x] Verified bottom slide rail coordinates flush-mounted symmetrically on inner faces of Y-beams (X=130 and X=910).
+  - [x] Verified via headless `freecadcmd drawing/src/workbench_500.py < /dev/null` (exit code 0).
+  - [x] Verified live in FreeCAD GUI via MCP `execute_code` (bounding box 1600.0x800.0x630.0mm).
 - **Verification Evidence**:
   - `freecadcmd drawing/src/workbench_500.py`: Exit code 0, 110 objects generated across 4 groups.
-  - MCP `execute_code`: BoundBox X=1600.0, Y=800.0, Z=550.0mm.
-  - Artifact images: `workstation_1600_v24_1.png` (Isometric view) and `workstation_1600_v24_1_front.png` (Front view).
+  - MCP `execute_code`: BoundBox X=1600.0, Y=800.0, Z=630.0mm.
+  - Artifact images: `workstation_1600_v25.png` (Isometric view) and `workstation_1600_v25_front.png` (Front elevation view).
 - **Next Best Action**:
   - Proceed with `cad-002`: Implement automated bounding box assertion checks.
 
