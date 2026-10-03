@@ -147,19 +147,32 @@
   - Live FreeCAD GUI: 20 Brackets (Side: 12, Back: 8), 20 Anchors, 12 Through-bolts, 8 Clips.
 ### Session 7 - 2026-10-03 (V26.0 Master Edition: Full Structural & Fastener Streamlining)
 - **Goal**: Implement structural and fastener optimizations: remove rear mid-beams, remove top reinforcement beams, remove bottom dedicated tray beams (direct mount to boundary Y-beams), and streamline BOM.
-- **Completed**:
+- **Completed (V26.0 Streamlining)**:
   - [x] Removed 2 rear middle horizontal beams and 4 center cross brackets; rear is now 100% open with only 4 outer corner brackets.
   - [x] Removed 4 bottom tray support beams; mounted 600mm heavy-duty slides directly into the inner T-slots of primary boundary Y-beams (`X=40, 780, 820, 1560`).
   - [x] Adjusted pull-out trays to 700×700×18mm (xTool M2 has 90mm margin; raw sheet stock has 100mm margin).
   - [x] Removed 2 top reinforcement Y-beams; 24mm solid birch plywood carries 40~45kg L4 with <0.2mm theoretical deflection and zero long-term creep.
   - [x] Maintained 6 recessed anchor pins on the 3 middle drawer beams (zero bracket interference with drawers or hands).
-  - [x] 4040 aluminum profile count reduced from 27 to 19 pieces (total length reduced from 21.98m to 16.18m, saving 5.80m of profile).
+  - [x] 4040 aluminum profile count reduced from 27 to 19 pieces (total length reduced to 16.18m, saving 5.80m of profile).
   - [x] Fasteners streamlined to 42 total: 16 corner brackets (12 side + 4 back), 6 anchor pins, 12 M12 through-bolts, 8 tabletop clips.
+
+### Session 8: V27.0 500mm Upright Columns & Stepless Height Adjustment
+- **Active Task**: Finalize CAD-005 with 500mm columns, 580mm frame height, 604mm tabletop, 160mm deep drawers, and physical stepless adjustment.
+- **Completed**:
+  - [x] Upright columns reduced to 500 mm (Z=40..540), frame height 580 mm, 24mm birch tabletop top surface at Z=604 mm (low sit-down station).
+  - [x] Height chain exact formula: Lower Bay 260 mm + Middle Beam 40 mm + Upper Bay 200 mm = 500 mm (column length).
+  - [x] Lower Bay: xTool M2 on 18mm tray occupies Z=53..251 mm, leaving 49 mm safe sliding headroom below Z=300 mm mid-beam for air hose and cables.
+  - [x] Middle Drawer Beams: Z=300..340 mm, mounted with 6 embedded anchor pins sliding inside column T-slots, allowing continuous manual vertical adjustment with an Allen key.
+  - [x] Upper Bay: 200 mm clear opening (Z=340..540 mm) accommodating dual 680×550×160 mm 2020 aluminum deep drawers (Z=355..515 mm, 140 mm internal net depth).
+  - [x] Desktop Equipment: Base updated to Z=604 mm. LightMake L4 top at 1281 mm (comfortable downward chamber view); Canon MF113w top at 859 mm (sitting reach); Bambu P1S top at 1061 mm with AMS stacked at 1285 mm (effortless chest/elbow level for spool loading).
+  - [x] Final BOM: 19 pieces of 4040 aluminum (15.88 m), 24 pieces of 2020 aluminum (10.48 m), 16 corner brackets, 6 anchor pins, 12 M12 through-bolts, 8 tabletop clips.
   - [x] Verified via headless `freecadcmd drawing/src/workbench_500.py` with exit code 0.
-  - [x] Verified live in FreeCAD GUI via MCP `execute_code`: 42 fasteners, 19 profiles, 1600x800x630mm bounding box.
-  - [x] Generated multi-perspective screenshots: `workstation_1600_v26_iso.png`, `workstation_1600_v26_front.png`, `workstation_1600_v26_rear.png`, `workstation_1600_v26_bottom.png`, `workstation_1600_v26_frame_fasteners_iso.png`.
+  - [x] Verified live in FreeCAD GUI via MCP `execute_code`: 1600x800x580mm frame bounding box, tabletop at Z=604mm.
+  - [x] Generated multi-perspective screenshots: `workstation_1600_v27_iso.png`, `workstation_1600_v27_front.png`, `workstation_1600_v27_rear.png`, `workstation_1600_v27_side_left.png`, `workstation_1600_v27_frame_fasteners_iso.png`, `workstation_1600_v27_frame_fasteners_front.png`, `workstation_1600_v27_frame_fasteners_rear.png`.
 - **Verification Evidence**:
   - `freecadcmd drawing/src/workbench_500.py`: Exit code 0.
-  - `./scripts/verify.sh`: All 3 CAD models (`shoe.py`, `workbench.py`, `workbench_500.py`) passed cleanly.
+  - `./scripts/verify.sh`: Syntax check and 3 headless CAD models passed cleanly.
+  - `./init.sh`: Environment initialized and baseline verification passed cleanly.
 - **Next Best Action**:
-  - Commit clean changes to git and present final BOM and screenshots.
+  - Commit clean changes to git and present final V27.0 engineering summary and BOM to user.
+
