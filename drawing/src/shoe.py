@@ -180,8 +180,7 @@ except:
     pass
 
 try:
-    combined = sole_body.fuse(upper_final)
-    bbox = combined.BoundBox
+    bbox = Part.makeCompound([sole_body, upper_final]).BoundBox
     print(f"✅ 高精度幼儿学步鞋模型生成完毕！")
     print(f"外包围盒: 长 {bbox.XLength:.1f}mm, 宽 {bbox.YLength:.1f}mm, 高 {bbox.ZLength:.1f}mm")
 except:

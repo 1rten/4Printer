@@ -37,15 +37,22 @@ if [ -n "$FREECAD_CMD" ]; then
   # Test shoe.py
   if [ -f "drawing/src/shoe.py" ]; then
     echo "Running headless check: drawing/src/shoe.py..."
-    "$FREECAD_CMD" drawing/src/shoe.py >/dev/null 2>&1
+    "$FREECAD_CMD" drawing/src/shoe.py < /dev/null >/dev/null 2>&1
     echo "✅ drawing/src/shoe.py executed cleanly."
   fi
 
   # Test workbench.py
   if [ -f "drawing/src/workbench.py" ]; then
     echo "Running headless check: drawing/src/workbench.py..."
-    "$FREECAD_CMD" drawing/src/workbench.py >/dev/null 2>&1
+    "$FREECAD_CMD" drawing/src/workbench.py < /dev/null >/dev/null 2>&1
     echo "✅ drawing/src/workbench.py executed cleanly."
+  fi
+
+  # Test workbench_500.py
+  if [ -f "drawing/src/workbench_500.py" ]; then
+    echo "Running headless check: drawing/src/workbench_500.py..."
+    "$FREECAD_CMD" drawing/src/workbench_500.py < /dev/null >/dev/null 2>&1
+    echo "✅ drawing/src/workbench_500.py executed cleanly."
   fi
 else
   echo "⚠️ Warning: FreeCAD not found. Skipping CAD runtime recompute checks."

@@ -159,6 +159,30 @@
       ],
       "evidence": [],
       "notes": "Makes the repo the system of record for physical workstation specs."
+    },
+    {
+      "id": "cad-005",
+      "priority": 1.5,
+      "area": "cad-modeling",
+      "title": "1600x800x550mm Workstation (V24.0: Dual Upper Drawers, Dual Lower Slide Trays, Canon on Tabletop)",
+      "user_visible_behavior": "Parametric FreeCAD script in drawing/src/workbench_500.py generates a 1600x800x550mm heavy workstation with symmetrical dual 740mm bays: lower tier has two 720x700mm slide trays (left for xTool M2 with 49mm top clearance, right for material sheets/stock), first tier has two matching 680x550x130mm 2020 aluminum profile drawers (left above M2 for laser tools, right for 3D printing tools), and tabletop carries L4, Canon MF113w, and P1S+AMS with equal 72mm clearances.",
+      "status": "passing",
+      "verification": [
+        "Run /Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd drawing/src/workbench_500.py",
+        "Verify in live FreeCAD GUI via MCP execute_code and inspect 3D view and bounding box."
+      ],
+      "evidence": [
+        "Created drawing/src/workbench_500.py with 1600x800x550mm envelope (columns at X=0, 780, 1560, height 470mm, tabletop at Z=574mm).",
+        "Verified headless execution via /Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd drawing/src/workbench_500.py with exit code 0.",
+        "Verified in live FreeCAD GUI via MCP execute_code: Frame BoundingBox is exactly 1600.0x800.0x550.0mm, tabletop at Z=550..574mm.",
+        "Bottom Tier: Left 720x700mm slide tray carries xTool M2 (610x569x180mm) at X=105, Y=90, Z=71 with 49mm top clearance under mid-beam (Z=300); Right 720x700mm slide tray carries 600mm sheet materials/stock.",
+        "First Tier (Top): Left 680x550x130mm 2020 aluminum drawer above laser machine for laser tools; Right matching 680x550x130mm drawer for 3D printing tools at Z=350..480mm.",
+        "Desktop: L4 at X=40..655, Canon MF113w at X=727..1099, P1S at X=1171..1560 with AMS stacked at Z=1031..1255mm (chest height). Equal 72.0mm clearances on both sides of Canon.",
+        "Preserved 833x350~400mm clear front-edge work apron in front of Canon and P1S.",
+        "Fixed bottom tray slide rail coordinates: corrected Slide_LeftTray_L from X=90 to X=130 and Slide_RightTray_L from X=870 to X=910 to flush-mount symmetrically on the inner faces of bottom Y-beams.",
+        "Captured 3D isometric and front view screenshots in FreeCAD (workstation_1600_v24_1.png, workstation_1600_v24_1_front.png)."
+      ],
+      "notes": "V24.0 finalized: dual upper drawers (one above M2, one above right tray), dual lower slide trays with symmetrical flush-mounted slides, Canon MF113w on tabletop."
     }
   ]
 }
