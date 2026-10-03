@@ -110,39 +110,7 @@ def create_anchor_pin(x, y, z, name, axis='Y', group=grp_fasteners):
     else:
         return create_cube(42, 42, 42, x - 21, y - 1, z - 1, name, C_ANCHOR, transparency=50, group=group)
 
-def create_2020_drawer(w, d, h, x, y, z, name_prefix, group=grp_panels, pull_offset=0):
-    """
-    组装 2020 铝型材抽屉内胆:
-      w: 抽屉外宽 (680 mm)
-      d: 抽屉外深 (550 mm)
-      h: 抽屉外高 (130 mm)
-      x, y, z: 抽屉底角坐标 (闭合状态坐标，向前抽出时 y_eff = y - pull_offset)
-      pull_offset: 向前抽出的行程距离 (mm)
-    """
-    y_eff = y - pull_offset
-    
-    # 1. 底框 4 根 2020
-    create_cube(w, 20, 20, x, y_eff, z, f"{name_prefix}_Bot_Front_2020", C_DRAWER_ALUM, group=group)
-    create_cube(w, 20, 20, x, y_eff + d - 20, z, f"{name_prefix}_Bot_Back_2020", C_DRAWER_ALUM, group=group)
-    create_cube(20, d - 40, 20, x, y_eff + 20, z, f"{name_prefix}_Bot_Left_2020", C_DRAWER_ALUM, group=group)
-    create_cube(20, d - 40, 20, x + w - 20, y_eff + 20, z, f"{name_prefix}_Bot_Right_2020", C_DRAWER_ALUM, group=group)
-    
-    # 2. 抽屉底板 (插装在 2020 槽内)
-    create_cube(w - 20, d - 20, 5, x + 10, y_eff + 10, z + 8, f"{name_prefix}_Plate_Acrylic", C_ACRYLIC, 30, group=group)
-    
-    # 3. 四角立柱 4 根 2020
-    post_h = h - 40
-    create_cube(20, 20, post_h, x, y_eff, z + 20, f"{name_prefix}_Post_FL_2020", C_DRAWER_ALUM, group=group)
-    create_cube(20, 20, post_h, x + w - 20, y_eff, z + 20, f"{name_prefix}_Post_FR_2020", C_DRAWER_ALUM, group=group)
-    create_cube(20, 20, post_h, x, y_eff + d - 20, z + 20, f"{name_prefix}_Post_BL_2020", C_DRAWER_ALUM, group=group)
-    create_cube(20, 20, post_h, x + w - 20, y_eff + d - 20, z + 20, f"{name_prefix}_Post_BR_2020", C_DRAWER_ALUM, group=group)
-    
-    # 4. 顶框 4 根 2020
-    top_z = z + h - 20
-    create_cube(w, 20, 20, x, y_eff, top_z, f"{name_prefix}_Top_Front_2020", C_DRAWER_ALUM, group=group)
-    create_cube(w, 20, 20, x, y_eff + d - 20, top_z, f"{name_prefix}_Top_Back_2020", C_DRAWER_ALUM, group=group)
-    create_cube(20, d - 40, 20, x, y_eff + 20, top_z, f"{name_prefix}_Top_Left_2020", C_DRAWER_ALUM, group=group)
-    create_cube(20, d - 40, 20, x + w - 20, y_eff + 20, top_z, f"{name_prefix}_Top_Right_2020", C_DRAWER_ALUM, group=group)
+
 
 # ==============================================================================
 # 1. 铝型材骨架系统 (4040 刚性闭环，长 1600mm，立柱 550mm，总高 630mm)
@@ -158,11 +126,11 @@ for x in [0, 780, 1560]:
 
 # Y 向横梁系统 (9 根主梁：顶底 6 根由侧面 12 颗角码锁死零锚钉；中层 3 根抽屉滑轨承重梁由 6 颗内嵌锚钉固定)
 # - Bot(Z=0): X=0, 780, 1560 (左右两舱底部主梁，重载楼梯滑轨直接固定于侧面 T 槽，无需任何多余底梁)
-# - Mid(Z=300): X=0, 780, 1560 (左右两舱专用抽屉滑轨承重中梁，下留54mm净空，上留200mm大抽屉空间)
+# - Mid(Z=340..380): X=0, 780, 1560 (距顶梁 Z=540 正好 160mm 黄金开孔，下留整整 300mm 托盘仓，89mm 宽裕防刮净空)
 # - Top(Z=540): X=0, 780, 1560 (顶部主梁，依靠 24mm 桦木实木板自身超强刚度承托 L4 与 P1S)
 y_levels = [
     ("Bot", 0,   [0, 780, 1560]),
-    ("Mid", 300, [0, 780, 1560]),
+    ("Mid", 340, [0, 780, 1560]),
     ("Top", 540, [0, 780, 1560]),
 ]
 for tag, z, xs in y_levels:
@@ -230,25 +198,78 @@ create_cube(20, 600, 53, 820,  60, 0, "Slide_RightTray_L", C_SLIDE, group=grp_pa
 create_cube(20, 600, 53, 1540, 60, 0, "Slide_RightTray_R", C_SLIDE, group=grp_panels)
 create_cube(700, 700, 18, 840, 50, 53, "Wood_Material_Tray_Right", C_WOOD, 10, group=grp_panels)
 
-# ----------------- (2) 第一层：左右并列双超宽 2020 铝型材抽屉 (外宽各 680mm, 进深 550mm, 高 160mm, 净高 140mm) -----------------
-# 抽屉滑轨安装于中梁侧面 T 槽 (Z=325..370mm，上接抽屉底框，下锁中梁 T 槽)
-# 抽屉底标高 Z=355mm，顶标高 Z=515mm (下距中梁 15mm 净空，上距顶梁 25mm 防蹭净空)
-# 左抽屉：位于激光机正上方 (X=60..740)，向前抽拉 100mm 展示内部结构
-PULL_LEFT_DRAWER = 100
-create_cube(13, 550, 45, 41,  60, 325, "Slide_DrawL_Outer_L", C_SLIDE, group=grp_panels)
-create_cube(13, 550, 45, 766, 60, 325, "Slide_DrawL_Outer_R", C_SLIDE, group=grp_panels)
-create_2020_drawer(680, 550, 160, 60, 60, 355, "Drawer_Left_LaserTools", group=grp_panels, pull_offset=PULL_LEFT_DRAWER)
+# ----------------- (2) 第一层：左右并列双超宽 2020 铝型材抽屉系统 (精密紧固挂接，零空悬，零缝隙) -----------------
+# 物理装配约束：
+# - 舱体净宽 740 mm，双侧 13mm 滑轨，抽屉外宽严格定为 714 mm (左右各贴合 13mm 滑轨，严丝合缝)
+# - 抽屉进深 550 mm，外高 160 mm (内净深 140 mm)
+# - 滑轨安装于中梁 Z=340..380 侧面 T 槽 (高度 40mm)，抽屉底标高 Z=350 (下凹进入中梁 30mm，下底留 10mm 间隙)
+# - 抽屉顶标高 Z=510，距顶梁底 Z=540 留有 30mm 充足防蹭抽拉净空
+# - 三节伸缩式静音阻尼滑轨：固定外轨锁固于 4040 梁，中节伸缩轨同步延展，活动内轨紧贴抽屉侧壁并随抽屉抽拉
 
-# 右抽屉：位于右下物料托盘正上方 (X=850..1530)，保持完全闭合收纳状态
-create_cube(13, 550, 45, 821,  60, 325, "Slide_DrawR_Outer_L", C_SLIDE, group=grp_panels)
-create_cube(13, 550, 45, 1546, 60, 325, "Slide_DrawR_Outer_R", C_SLIDE, group=grp_panels)
-create_2020_drawer(680, 550, 160, 850, 60, 355, "Drawer_Right_3DTools", group=grp_panels, pull_offset=0)
+C_SLIDE_MID = (0.72, 0.75, 0.79)
+
+def build_drawer_and_telescopic_slides(bay_x_start, z_mid, pull_offset, prefix):
+    w = 714
+    d = 550
+    h = 160
+    y_base = 50
+    y_eff = y_base - pull_offset
+    z_drawer = z_mid + 10  # Z = 350
+    
+    # 1. 2020 铝型材抽屉内胆 (外宽 714, 深 550, 高 160)
+    x_draw = bay_x_start + 13  # 53 (左舱) 或 833 (右舱)
+    
+    # 底框 4 根 2020
+    create_cube(w, 20, 20, x_draw, y_eff, z_drawer, f"{prefix}_Bot_Front_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(w, 20, 20, x_draw, y_eff + d - 20, z_drawer, f"{prefix}_Bot_Back_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(20, d - 40, 20, x_draw, y_eff + 20, z_drawer, f"{prefix}_Bot_Left_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(20, d - 40, 20, x_draw + w - 20, y_eff + 20, z_drawer, f"{prefix}_Bot_Right_2020", C_DRAWER_ALUM, group=grp_panels)
+    
+    # 抽屉底板 (5mm 黑色透光亚克力，插装于 2020 槽内)
+    create_cube(w - 20, d - 20, 5, x_draw + 10, y_eff + 10, z_drawer + 8, f"{prefix}_Plate_Acrylic", C_ACRYLIC, 30, group=grp_panels)
+    
+    # 四角立柱 4 根 2020 (立柱长 120 mm，抽屉总高 160 mm)
+    post_h = h - 40
+    create_cube(20, 20, post_h, x_draw, y_eff, z_drawer + 20, f"{prefix}_Post_FL_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(20, 20, post_h, x_draw + w - 20, y_eff, z_drawer + 20, f"{prefix}_Post_FR_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(20, 20, post_h, x_draw, y_eff + d - 20, z_drawer + 20, f"{prefix}_Post_BL_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(20, 20, post_h, x_draw + w - 20, y_eff + d - 20, z_drawer + 20, f"{prefix}_Post_BR_2020", C_DRAWER_ALUM, group=grp_panels)
+    
+    # 顶框 4 根 2020
+    top_z = z_drawer + h - 20
+    create_cube(w, 20, 20, x_draw, y_eff, top_z, f"{prefix}_Top_Front_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(w, 20, 20, x_draw, y_eff + d - 20, top_z, f"{prefix}_Top_Back_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(20, d - 40, 20, x_draw, y_eff + 20, top_z, f"{prefix}_Top_Left_2020", C_DRAWER_ALUM, group=grp_panels)
+    create_cube(20, d - 40, 20, x_draw + w - 20, y_eff + 20, top_z, f"{prefix}_Top_Right_2020", C_DRAWER_ALUM, group=grp_panels)
+
+    # 2. 三节伸缩式静音阻尼滑轨组装 (总厚度 13mm，完美连接梁与抽屉)
+    # 左侧滑轨 (X: bay_x_start .. bay_x_start + 13)
+    # (a) 固定外轨 (厚6mm, 牢固锁紧于 4040 中梁内侧 T 槽)
+    create_cube(6, d, 40, bay_x_start, y_base, z_mid, f"{prefix}_SlideL_Outer", C_SLIDE, group=grp_panels)
+    # (b) 中节延伸轨 (厚3mm, 抽拉行程一半)
+    create_cube(3, d, 34, bay_x_start + 6, y_base - pull_offset * 0.5, z_mid + 3, f"{prefix}_SlideL_Mid", C_SLIDE_MID, group=grp_panels)
+    # (c) 活动内轨 (厚4mm, 紧贴抽屉侧壁，随抽屉完全同步滑出)
+    create_cube(4, d, 28, bay_x_start + 9, y_eff, z_mid + 6, f"{prefix}_SlideL_Inner", C_SLIDE, group=grp_panels)
+
+    # 右侧滑轨 (X: bay_x_start + 727 .. bay_x_start + 740)
+    # (c) 活动内轨 (厚4mm, 紧贴抽屉右侧壁)
+    create_cube(4, d, 28, bay_x_start + 727, y_eff, z_mid + 6, f"{prefix}_SlideR_Inner", C_SLIDE, group=grp_panels)
+    # (b) 中节延伸轨 (厚3mm)
+    create_cube(3, d, 34, bay_x_start + 731, y_base - pull_offset * 0.5, z_mid + 3, f"{prefix}_SlideR_Mid", C_SLIDE_MID, group=grp_panels)
+    # (a) 固定外轨 (厚6mm, 牢固锁紧于 4040 中梁外侧 T 槽)
+    create_cube(6, d, 40, bay_x_start + 734, y_base, z_mid, f"{prefix}_SlideR_Outer", C_SLIDE, group=grp_panels)
+
+# 左抽屉：位于激光机正上方，向前抽拉 120mm 展示三节滑轨联动与内部结构
+build_drawer_and_telescopic_slides(40, 340, 120, "Drawer_Left_LaserTools")
+
+# 右抽屉：位于右下物料托盘正上方，保持完全闭合收纳状态 (pull=0)
+build_drawer_and_telescopic_slides(820, 340, 0, "Drawer_Right_3DTools")
 
 # ==============================================================================
 # 6. 设备就位 (下层 M2 + 桌面并列三剑客：L4 + 佳能MF113w + P1S/AMS叠放)
 # ==============================================================================
 # (1) 左舱托盘：xTool M2 (610 mm 宽 × 569 mm 深 × 180 mm 高)
-#     - 居中居前：X=105, Y=90, Z=71 (顶高 Z=251mm，距上方中梁 Z=300mm 留有整整 49mm 宽敞净空)
+#     - 居中居前：X=105, Y=90, Z=71 (顶高 Z=251mm，距上方中梁 Z=340mm 留有整整 89mm 宽敞净空)
 #     - 托盘后部留出 141mm (Y=659..750) 顺畅排烟与电源线区域
 create_cube(610, 569, 180, 105, 90, 71, "Machine_xTool_M2", C_M2, 30, group=grp_equip)
 
@@ -290,12 +311,13 @@ print("  • 框架外包围尺寸 : 1600 mm (长) × 800 mm (深) × 580 mm (�
 print("  • 主立柱下料长度 : 500 mm (共 6 根)")
 print("  • 台面顶高       : 604 mm (含 24mm 桦木海洋板，黄金低坐姿工位)")
 print("  • 完美全对称架构 : 左右两舱净宽均为 740 mm！")
-print("  • 第一层(双深抽屉): 左右各一个 680×550×160mm 2020 铝型材宽体深抽屉 (净深高 140mm)")
-print("  • 底层(双大托盘) : 左右各一个 700×700×18mm 超大抽拉托盘 (左M2留49mm净空，右原板材仓)")
+print("  • 第一层(双深抽屉): 左右各一个 714×550×160mm 2020 铝型材宽体深抽屉 (内净深 140mm，双侧贴合13mm三节阻尼轨)")
+print("  • 底层(双大托盘) : 左右各一个 700×700×18mm 超大抽拉托盘 (左M2留89mm宽裕净空，右原板材仓)")
 print("  • 桌面三机并列   : L4(宽615) + 佳能MF113w(宽372) + P1S(宽389)")
 print("  • 黄金等距间隙   : L4与佳能、佳能与P1S之间间隙均为 72.0 mm（手掌自由伸入）")
 print("  • 桌面实操前带   : 佳能与P1S前方形成 833×350~400mm 纯净作业区(笔记本/工具)")
 print("  • 顶置AMS人机高度: AMS 顶高 1285 mm，换料平视胸口位置，零疲劳")
+print("  • 抽屉中梁开孔   : 中梁位于 Z=340..380mm，顶梁至中梁净空 160mm，下层托盘仓净高 300mm")
 print("  • 无级高度可调   : 中层 3 根 Y 梁由 6 颗内嵌锚钉锁于立柱 T 槽，松螺丝即可自由微调！")
 print("📦 五金物料装配清单 (BOM Summary):")
 print("  • 4040 压铸铝三角抗震角码 (45° 加厚肋) : 16 套 (侧面 12 套 + 后面 4 外角)")
@@ -303,7 +325,7 @@ print("  • 4040 隐形内嵌锚式销钉套件 (Φ12销轴) : 6 套 (中层 3 
 print("  • M12/M8 垂直中心贯穿拉紧螺栓套件     : 12 支 (含平垫片)")
 print("  • 桌面板 T型槽防震固定扣件             : 8 套 (含自攻木螺钉)")
 print("  • 600mm 重载三节静音阻尼滑轨           : 4 条 (左右双大托盘各2条，直接安装在边框大梁上)")
-print("  • 550mm 三节阻尼静音滑轨               : 4 条 (左右双大抽屉各2条)")
+print("  • 550mm 三节伸缩静音阻尼滑轨           : 4 条 (左右双大抽屉各2条，三节联动伸缩展示)")
 print("  • 4040 国标轻/重型铝型材总切割长度     : 15.88 米 (共 19 根)")
-print("  • 2020 铝型材抽屉内胆总切割长度       : 10.48 米 (共 24 根)")
+print("  • 2020 铝型材抽屉内胆总切割长度       : 10.75 米 (共 24 根: 714mm×8, 510mm×8, 120mm×8)")
 print("=" * 62 + "\n")

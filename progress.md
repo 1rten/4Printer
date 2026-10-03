@@ -156,23 +156,22 @@
   - [x] 4040 aluminum profile count reduced from 27 to 19 pieces (total length reduced to 16.18m, saving 5.80m of profile).
   - [x] Fasteners streamlined to 42 total: 16 corner brackets (12 side + 4 back), 6 anchor pins, 12 M12 through-bolts, 8 tabletop clips.
 
-### Session 8: V27.0 500mm Upright Columns & Stepless Height Adjustment
-- **Active Task**: Finalize CAD-005 with 500mm columns, 580mm frame height, 604mm tabletop, 160mm deep drawers, and physical stepless adjustment.
+### Session 9: Drawer Telescopic Slides & Z=340..380 Beam Alignment
+- **Active Task**: Fix drawer disconnection from slide rails and align drawer beam with exact 160mm top opening.
 - **Completed**:
-  - [x] Upright columns reduced to 500 mm (Z=40..540), frame height 580 mm, 24mm birch tabletop top surface at Z=604 mm (low sit-down station).
-  - [x] Height chain exact formula: Lower Bay 260 mm + Middle Beam 40 mm + Upper Bay 200 mm = 500 mm (column length).
-  - [x] Lower Bay: xTool M2 on 18mm tray occupies Z=53..251 mm, leaving 49 mm safe sliding headroom below Z=300 mm mid-beam for air hose and cables.
-  - [x] Middle Drawer Beams: Z=300..340 mm, mounted with 6 embedded anchor pins sliding inside column T-slots, allowing continuous manual vertical adjustment with an Allen key.
-  - [x] Upper Bay: 200 mm clear opening (Z=340..540 mm) accommodating dual 680×550×160 mm 2020 aluminum deep drawers (Z=355..515 mm, 140 mm internal net depth).
-  - [x] Desktop Equipment: Base updated to Z=604 mm. LightMake L4 top at 1281 mm (comfortable downward chamber view); Canon MF113w top at 859 mm (sitting reach); Bambu P1S top at 1061 mm with AMS stacked at 1285 mm (effortless chest/elbow level for spool loading).
-  - [x] Final BOM: 19 pieces of 4040 aluminum (15.88 m), 24 pieces of 2020 aluminum (10.48 m), 16 corner brackets, 6 anchor pins, 12 M12 through-bolts, 8 tabletop clips.
+  - [x] Slide rail connection: Eliminated horizontal gaps by setting drawer width to 714mm in 740mm bays with dual 13mm slides.
+  - [x] Telescopic slide representation: Implemented 3-section slides (outer rail on 4040 beam, mid extension rail, inner rail on drawer). When left drawer pulls out 120mm, the slide extends seamlessly.
+  - [x] Drawer beam position: Updated middle beam to Z=340..380 mm. Distance from top beam (Z=540mm) down to drawer beam is exactly 160 mm.
+  - [x] Lower bay: Clear opening increased to 300 mm ($Z=40..340$), providing 89 mm headroom above xTool M2 on slide tray.
+  - [x] Drawers: Outer height 160 mm ($Z=350..510$), internal net depth 140 mm, leaving 30 mm clear opening below top beam.
+  - [x] Updated 2020 BOM length to 10.75m (714mm×8, 510mm×8, 120mm×8).
   - [x] Verified via headless `freecadcmd drawing/src/workbench_500.py` with exit code 0.
-  - [x] Verified live in FreeCAD GUI via MCP `execute_code`: 1600x800x580mm frame bounding box, tabletop at Z=604mm.
-  - [x] Generated multi-perspective screenshots: `workstation_1600_v27_iso.png`, `workstation_1600_v27_front.png`, `workstation_1600_v27_rear.png`, `workstation_1600_v27_side_left.png`, `workstation_1600_v27_frame_fasteners_iso.png`, `workstation_1600_v27_frame_fasteners_front.png`, `workstation_1600_v27_frame_fasteners_rear.png`.
+  - [x] Verified live in FreeCAD GUI via MCP `execute_code`.
+  - [x] Generated updated screenshots: `workstation_1600_v27_full_iso.png`, `workstation_1600_v27_full_front.png`, `workstation_1600_v27_drawer_slide_iso.png`, `workstation_1600_v27_drawer_slide_connected.png`.
 - **Verification Evidence**:
   - `freecadcmd drawing/src/workbench_500.py`: Exit code 0.
   - `./scripts/verify.sh`: Syntax check and 3 headless CAD models passed cleanly.
-  - `./init.sh`: Environment initialized and baseline verification passed cleanly.
+  - `./init.sh`: Baseline checks passed cleanly.
 - **Next Best Action**:
-  - Commit clean changes to git and present final V27.0 engineering summary and BOM to user.
+  - Commit clean changes to git and present final explanation and images to user.
 
