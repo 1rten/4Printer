@@ -118,12 +118,15 @@
   - [x] Symmetrical clearances: Exactly 72.0 mm (7.2 cm) clearances on both sides of Canon.
   - [x] Preserved 833 mm wide × 350~400 mm deep clear front-edge work apron in front of Canon and P1S.
   - [x] Verified bottom slide rail coordinates flush-mounted symmetrically on inner faces of Y-beams (X=130 and X=910).
+  - [x] Eliminated redundant anchor pins at rear cross intersection (Anchor_X_Mid_X780, X820), locking the joint purely with 4 gusset brackets for optimal anti-vibration stability without over-constraint.
+  - [x] Optimized Y-axis beam fasteners: eliminated 12 redundant anchor pins across the 6 main Y-axis crossbeams (3 at top, 3 at bottom at X=0, 780, 1560) which are firmly clamped by 12 die-cast triangular brackets in the YZ plane.
+  - [x] Preserved 20 pure anchor pins for internal motion/functional beams (4 bottom slide beams, 2 top reinforcement beams, 3 middle drawer beams, 2 rear outer ends).
   - [x] Verified via headless `freecadcmd drawing/src/workbench_500.py < /dev/null` (exit code 0).
-  - [x] Verified live in FreeCAD GUI via MCP `execute_code` (bounding box 1600.0x800.0x630.0mm).
+  - [x] Verified live in FreeCAD GUI via MCP `execute_code` (bounding box 1600.0x800.0x630.0mm, tabletop at Z=654mm).
 - **Verification Evidence**:
-  - `freecadcmd drawing/src/workbench_500.py`: Exit code 0, 110 objects generated across 4 groups.
+  - `freecadcmd drawing/src/workbench_500.py`: Exit code 0, 96 objects generated across 4 groups.
   - MCP `execute_code`: BoundBox X=1600.0, Y=800.0, Z=630.0mm.
-  - Artifact images: `workstation_1600_v25.png` (Isometric view) and `workstation_1600_v25_front.png` (Front elevation view).
+  - Artifact images: `workstation_1600_v25_1.png` (Isometric view) and `workstation_1600_v25_1_front.png` (Front elevation view).
 - **Next Best Action**:
   - Proceed with `cad-002`: Implement automated bounding box assertion checks.
 

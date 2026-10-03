@@ -180,9 +180,11 @@
         "Desktop: L4 at X=40..655, Canon MF113w at X=727..1099, P1S at X=1171..1560 with AMS stacked at Z=1111..1335mm (chest height). Equal 72.0mm clearances on both sides of Canon.",
         "Preserved 833x350~400mm clear front-edge work apron in front of Canon and P1S.",
         "Fixed bottom tray slide rail coordinates: corrected Slide_LeftTray_L from X=90 to X=130 and Slide_RightTray_L from X=870 to X=910 to flush-mount symmetrically on the inner faces of bottom Y-beams.",
-        "Captured 3D isometric and front view screenshots in FreeCAD (workstation_1600_v25.png, workstation_1600_v25_front.png)."
+        "Eliminated redundant anchor pins at rear cross intersection (Anchor_X_Mid_X780, X820), relying purely on 4 gusset brackets (B_Cross_*) for maximum rigidity and clean assembly without over-constraint.",
+        "Optimized Y-axis beam fasteners: eliminated 12 redundant anchor pins on the 6 main Y beams (3 top, 3 bot at X=0, 780, 1560) which are firmly secured by 12 die-cast triangular brackets in YZ plane. Retained 20 pure anchor pins for internal functional beams (4 slide support, 2 top reinforcement, 3 mid drawer, 2 rear outer).",
+        "Captured updated 3D isometric and front view screenshots in FreeCAD (workstation_1600_v25_1.png, workstation_1600_v25_1_front.png)."
       ],
-      "notes": "V25.0 finalized: 550mm upright columns (+80mm), 654mm tabletop (golden sitting posture), dual 170mm deep drawers (150mm net depth), 89mm M2 clearance, AMS at 1335mm."
+      "notes": "V25.1 finalized: 550mm columns, 654mm tabletop, dual 170mm deep drawers, 89mm M2 clearance, full fastener hierarchy: 20 gusset brackets, 20 anchor pins, 12 through-bolts, 8 tabletop clips."
     }
   ]
 }
